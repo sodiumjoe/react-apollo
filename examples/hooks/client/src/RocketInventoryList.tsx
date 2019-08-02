@@ -3,51 +3,24 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Row, Col } from 'reactstrap';
 
-import { RocketInventory } from './types';
-
-const GET_ROCKET_INVENTORY = gql`
-  query getRocketInventory {
-    rocketInventory {
-      id
-      model
-      year
-      stock
-    }
+const GET_ROCKET = gql`
+ query getRocket ($id: ID) {
+  rocket(id: $id) {
+    model
+    year
+    stock
   }
+}
 `;
 
 export function RocketInventoryList() {
-  const { loading, data } = useQuery(GET_ROCKET_INVENTORY);
+  const { loading, data } = useQuery(GET_ROCKET, {fetchPolicy: 'no-cache', variables: {id: 1}});
+  const { loading: loading2, data: data2 } = useQuery(GET_ROCKET, {fetchPolicy: 'no-cache', variables: {id: 1}});
+  debugger;
   return (
     <Row className="rocket-inventory-list mt-4">
       <Col sm="12">
-        <h3>Available Inventory</h3>
-        {loading ? (
-          <p>Loading ...</p>
-        ) : (
-          <table className="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Stock</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.rocketInventory.map((inventory: RocketInventory) => (
-                <tr
-                  key={`${inventory.model}-${inventory.year}-${
-                    inventory.stock
-                  }`}
-                >
-                  <td>{inventory.model}</td>
-                  <td>{inventory.year}</td>
-                  <td>{inventory.stock}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+        <div>{loading || loading2 ? 'loading...' : <div>{data.rocket.model} {data2.rocket.model}</div>}</div>
       </Col>
     </Row>
   );

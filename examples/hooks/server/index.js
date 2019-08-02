@@ -24,6 +24,7 @@ const typeDefs = gql`
 
   type Query {
     rocketInventory: [RocketInventory]
+    rocket(id: ID): RocketInventory
   }
 
   type Mutation {
@@ -70,6 +71,11 @@ const resolvers = {
   Query: {
     rocketInventory() {
       return rocketInventoryData;
+    },
+    rocket(obj, args) {
+      return rocketInventoryData.filter((rocket) => {
+        return rocket.id === Number(args.id)
+      })[0];
     }
   },
 

@@ -36,10 +36,10 @@ const terminatingLink = split(
   httpLink
 );
 
-const link = ApolloLink.from([terminatingLink]);
+const link = ApolloLink.from([httpLink]);
 
 const client = new ApolloClient({
-  link,
+  link: httpLink,
   cache: new InMemoryCache()
 });
 

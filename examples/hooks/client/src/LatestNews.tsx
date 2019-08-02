@@ -14,14 +14,14 @@ const LATEST_NEWS = gql`
 `;
 
 export function LatestNews() {
-  const { loading, data } = useSubscription<News>(LATEST_NEWS);
+  // const { loading, data } = useSubscription<News>(LATEST_NEWS);
   return (
     <Card className="bg-light">
       <CardBody>
         <CardTitle>
           <h5>Latest News</h5>
         </CardTitle>
-        <CardText>{loading ? 'Loading...' : data!.latestNews.content}</CardText>
+        <CardText>Loading...</CardText>
       </CardBody>
     </Card>
   );
